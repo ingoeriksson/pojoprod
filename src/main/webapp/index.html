@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+    <title>Skogforsk traktplanering</title>
+    <meta name="viewport" content="initial-scale=1.0">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"> 
+<!--     <link rel="stylesheet" href="css/bootstrap.min.css">3.3.7 -->
+    
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script> 
+<!--   	<script type="text/javascript" src="scripts/bootstrap.min.js"></script>  3.3.7 -->
+  	<!-- <script type="text/javascript" src="https://getbootstrap.com/2.0.4/assets/js/bootstrap-dropdown.js"></script> -->
+ 
+    <link rel="stylesheet" href="https://openlayers.org/en/v4.6.5/css/ol.css" type="text/css"> 
+ 	<!-- <link rel="stylesheet" href="css/ol.css" type="text/css">3.18.2 -->
+ 	
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.3.10/proj4.js" type="text/javascript"></script>
+    
+	<script src="http://epsg.io/3006.js" type="text/javascript"></script>
+	
+	
+ 	<script src="https://openlayers.org/en/v4.6.5/build/ol.js" type="text/javascript"></script> 
+	<!-- <script src="http://openlayers.org/en/v3.8.2/build/ol.js" type="text/javascript"></script> -->
+	<!-- <script src="scripts/ol.js" type="text/javascript"></script>3.18.2 -->
+	
+  	<script type="text/javascript" src="scripts/bootstrap-treeview.js"></script>   
+  	<link rel="stylesheet" href="css/traktdemo.css" type="text/css"> 
+  	<script type="text/javascript" src="traktstil.js"></script>
+   	<script type="text/javascript" src="traktdata.js"></script> 
+
+ 
+    <meta charset="utf-8">
+
+</head>
+<body>
+<nav id ="sfNavbar" class="navbar navbar-default">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#myNavbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>                        
+      </button>
+      <a class="navbar-brand" href="#">Skogforsk traktdemo</a>
+    </div>
+    <div class="collapse navbar-collapse" id="myNavbar">
+      <ul class="nav navbar-nav">
+
+
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Pekare<span class="caret"></span></a>
+          <ul class="dropdown-menu" id="menuPointer" >
+	        <li class="dropdown-submenu">
+        
+	        	<a href="#">Rita</a>
+	        			<ul class="dropdown-menu">
+	        				<li ><a href="#" id ="mnuItemPolygon">Polygon</a></li>
+	        				<li><a href="#" id ="mnuItemLinje">Linje</a></li>
+	        				<li><a href="#" id ="mnuItemPunkt">Punkt</a></li>
+	        				<li><a href="#" id ="mnuItemEditPolygons">Flytta polygongranser</a></li>
+	        			</ul>
+	        </li>
+	        
+	       	<li><a href="#" id="mnuItemMarkera">Markera</a></li>
+          </ul>
+        </li>
+        
+        
+        <li class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#">Markering<span class="caret"></span></a>
+          <ul class="dropdown-menu"  >
+          	<li><a href="#" id="mnuItemTabort">Ta bort</a></li>
+          	<li class="dropdown-submenu">
+        
+	        		<a href="#">Flytta</a>
+          
+			          <ul class="dropdown-menu">
+			          	<li><a href="#" id ="mnuItemTop">Överst</a></li>
+			          	<li><a href="#" id ="mnuItemBottom">Nederst</a></li>
+			          </ul>
+			 </li>
+			 <li class="dropdown-submenu">
+        
+	        		<a href="#">Stampositioner</a>
+          
+			          <ul class="dropdown-menu">
+			          	<li><a href="#" id="mnuItemAllStems2">Skördarpositioner</a></li>
+			          	<li><a href="#" id="mnuItemStemsTradgrupp">Trädgrupper</a></li>
+			          	<li><a href="#" id="mnuItemStemsHogstubbar">Högstubbar</a></li>
+			          	<li><a href="#" id="mnuItemStemsEvighetstrad">Evighetsträd</a></li>
+			          	<li><a href="#" id="mnuItemStemsKulturstubbar">Kulturstubbar</a></li>
+			          	<li><a href="#" id="mnuItemStemsRensa">Rensa</a></li>
+			          </ul>
+			 </li>
+			 <li><a href="#" id="mnuItemBuyers">Utbyte..</a></li>
+          </ul>
+        </li>
+        <li class="dropdown">
+          <a class="dropdown-toggle " data-toggle="dropdown" href="#">Position<span class="caret"></span></a>
+          <ul class="dropdown-menu">
+<!--          	<li id="liMnuItemGpsOn"><a href="#" id ="mnuItemGpsOn" >På</a></li>
+          	<li id="liMnuItemGpsOff"><a href="#" id ="mnuItemGpsOff">Av</a></li>
+          	<li><a href="#" id ="mnuShowLog">Loggspår</a></li>
+          	<li><a href="#" id ="mnuClearLog">Rensa</a></li>-->
+          	<li><a href="#" id ="mnuGotoCoord">Gå till X,Y..</a></li>
+          </ul>
+        </li>
+
+        <li>
+          <a class="statusinfo" id="serverstatus">Server status: </a>
+        </li>
+        
+      </ul>
+
+
+      <form id="logout" action="tdlogin">
+        <ul class="nav navbar-nav navbar-right">
+		    <li><a class="login" id="loginbtn" href="#"><span class="glyphicon glyphicon-log-in"></span> Logga in</a></li>
+        	<li><a><input type="password" id="tok" class="form-control input-sm chat-input" placeholder="token" ></input></a></li> 
+	    </ul> 
+	  </form> 
+     </div>
+  </div>
+</nav>
+	<div id= "mainContainer"  class="container-fluid">
+ 		<div class=row>
+ 			<div id="map" class='col-sm-8 col-md-8 col-lg-8'></div>
+	 	 	<div id="divData" class="col-sm-4 col-md-4 col-lg-4">
+	 	 		<div id="divHeader" ><h4 id="featIdLabel">Identitet:</h4></div>
+
+	 	 		<div id="divHeader" >
+	 	 			<textarea  id="freetext1" class="col-md-12 col-lg-12 form-control" wrap="hard" disabled="true" style="height:100px">fritext</textarea> 
+	 	 		
+	 	 		</div>
+				
+	 	 	
+	 	 		 <table class="table">
+					<thead>
+						<tr>
+							<th>Koder</th>
+							<th>
+								<button type="button" class="btn" id="btnAddConcept"><span class="glyphicon glyphicon-plus"></span></button>
+								<button type="button" class="btn" id="btnDelConcept"><span class="glyphicon glyphicon-minus"></span></button>
+							</th>
+						</tr>
+					</thead>
+
+				</table>
+				<table class="d" id ="tableConcepts" >
+					<tbody id ="tableBodyConcepts" >
+				
+					</tbody>
+				</table>
+		  		
+	 	 	</div>
+
+ 		</div>   
+ 	</div>
+ 	
+ 	<!--dialog goto xys -->
+    <div class="modal fade" id="gotoCoordModal" role="dialog">
+	    <div class="modal-dialog">
+	          <!-- Modal content-->
+	      <div class="modal-content">
+	        <div class="modal-header">
+	          <button type="button" class="close" data-dismiss="modal">&times;</button>
+	          <h4 class="modal-title">Skriv in koordinater</h4>
+	        </div>
+	        <div class="modal-body">
+	          <input type="text" id="gotocoord" class="form-control input-sm chat-input" placeholder="x-koordinat,y-koordinat""/>
+	        </div>
+	        <div class="modal-footer">
+	          <button type="button" class="btn btn-default" data-dismiss="modal" id="btnDoGotoCoord">Fortsätt</button>
+	          <button type="button" class="btn btn-default" data-dismiss="modal">Avbryt</button>
+	        </div>
+	      </div>
+	      
+	    </div>
+  	</div>
+  	
+
+  	
+
+
+
+
+</body>
+</html>
