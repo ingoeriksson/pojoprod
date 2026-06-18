@@ -7,6 +7,7 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+
 import com.github.cliftonlabs.json_simple.JsonObject;
 
 import java.io.IOException;
@@ -41,6 +42,7 @@ public class ProjSuper extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		System.out.println("Called"+this.getClass().getSimpleName());
 		JsonObject resp=new JsonObject();
 		response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -67,6 +69,7 @@ public class ProjSuper extends HttpServlet {
     	}
 
     	usr_id=proj_id;
+    	
         
         try{
         	

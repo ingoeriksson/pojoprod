@@ -514,8 +514,8 @@ function getFeaturesFromServer(){
 				mainSource.clear();
 				selSource.clear();
 				mainSource.addFeatures(feats);
-				//var myJSON = JSON.stringify(resp);
-				//console.log(JSON.stringify(myJSON));
+/*				var myJSON = JSON.stringify(resp);
+				console.log(JSON.stringify(myJSON));*/
 				var fuFeats=(new ol.format.GeoJSON()).readFeatures(resp.followupFeats);
 				styleFuFeats(fuFeats);
 				fuSource.clear();
@@ -532,7 +532,7 @@ function getFeaturesFromServer(){
 						map.getView().setZoom(aZoom);
 						
 					}else{
-						map.getView().fit(featSource.getExtent(), (map.getSize()));
+						map.getView().fit(mainSource.getExtent(), (map.getSize()));
 					}
 					doFit=false;
 

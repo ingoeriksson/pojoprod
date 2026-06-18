@@ -40,7 +40,7 @@ public class FeatureFetcher extends ProjSuper {
         String sql="select ST_asGeoJson(polygon) pg,  ST_asGeoJson(line) ls, "+
     			" ST_asGeoJson(point) pt,id,anytext from fore.place where user_id="+
     			usr_id+ "  order by verticalorder";
-       // System.out.println(sql);
+        System.out.println(sql);
         ResultSet rs=conn.createStatement().executeQuery(sql);
         while (rs.next()){
 			Feature feat=new Feature();
@@ -97,36 +97,36 @@ public class FeatureFetcher extends ProjSuper {
 		
 		
 		
-		json=new GeoJson();
-		sql="with a as (select st_asgeojson(polygon) as geomstr,id,vo,main_concept from fore.followup_place where st_area(polygon)>=50 and user_id="+usr_id+"),"
-				+ "b as (select st_asgeojson(geom) as geomstr,round (random()*10000) as id,vo,'avverkad'::text as main_concept from fore.followup_trakt where user_id="+usr_id+")"
-				+ "select * from a union select * from b";
-		//System.out.println(sql);
-        rs=conn.createStatement().executeQuery(sql);
-        while (rs.next()){
-        	if (rs.getString("geomstr")==null) continue;
-			Feature feat=new Feature();
-
-			Geometry geom=new Geometry();
-			String geomstr=rs.getString("geomstr");
-			String vo=rs.getString("vo");
-			 
-			geom.parseFromString(geomstr);
-			feat.setGeometry(geom);
-			feat.setId(rs.getString("id"));
-			//System.out.println(rs.getString("id"));
-	
-			feat.addProp("concept", rs.getString("main_concept"));
-			feat.addProp("vo", rs.getString("vo"));
-			
-			json.addFeat(feat);
-       	
-        }
-        rs.close();
-		json.addCrsData("name", "EPSG:3006");
-		
-		//System.out.println(json.toJSONString());
-		resp.put("followupFeats", json);
+//		json=new GeoJson();
+//		sql="with a as (select st_asgeojson(polygon) as geomstr,id,vo,main_concept from fore.followup_place where st_area(polygon)>=50 and user_id="+usr_id+"),"
+//				+ "b as (select st_asgeojson(geom) as geomstr,round (random()*10000) as id,vo,'avverkad'::text as main_concept from fore.followup_trakt where user_id="+usr_id+")"
+//				+ "select * from a union select * from b";
+//		//System.out.println(sql);
+//        rs=conn.createStatement().executeQuery(sql);
+//        while (rs.next()){
+//        	if (rs.getString("geomstr")==null) continue;
+//			Feature feat=new Feature();
+//
+//			Geometry geom=new Geometry();
+//			String geomstr=rs.getString("geomstr");
+//			String vo=rs.getString("vo");
+//			 
+//			geom.parseFromString(geomstr);
+//			feat.setGeometry(geom);
+//			feat.setId(rs.getString("id"));
+//			//System.out.println(rs.getString("id"));
+//	
+//			feat.addProp("concept", rs.getString("main_concept"));
+//			feat.addProp("vo", rs.getString("vo"));
+//			
+//			json.addFeat(feat);
+//       	
+//        }
+//        rs.close();
+//		json.addCrsData("name", "EPSG:3006");
+//		
+//		//System.out.println(json.toJSONString());
+//		resp.put("followupFeats", json);
     	
     	return true;
 
